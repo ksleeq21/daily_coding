@@ -37,11 +37,29 @@ class Tree {
     }
   }
 
-  inorder(node, values) {
+  inorderRecursively(node, values) {
     if (!node) return
-    this.inorder(node.left, values)
+    this.inorderRecursively(node.left, values)
     values.push(node.value)
-    this.inorder(node.right, values)
+    this.inorderRecursively(node.right, values)
+  }
+
+  preorderRecursively(node, values) {
+    if (!node) return
+    values.push(node.value)
+    this.preorderRecursively(node.left, values)
+    this.preorderRecursively(node.right, values)
+  }
+
+  postorderRecursively(node, values) {
+    if (!node) return
+    this.postorderRecursively(node.left, values)
+    this.postorderRecursively(node.right, values)
+    values.push(node.value)
+  }
+
+  breadthFirst(node, values) {
+
   }
 
   search(node, value) {
@@ -117,8 +135,8 @@ tree.insert(27)
 //     / \    /
 //    5   9  17
 let values = []
-tree.inorder(tree.root, values)
-console.log('inorder:', values)
+tree.inorderRecursively(tree.root, values)
+console.log('inorderRecursively:', values)
 // prints 5 7 9 10 13 15 17 22 25 27
 
 tree.remove(5)
@@ -131,9 +149,16 @@ console.log('remove 5')
 //       \    /
 //        9  17
 values = []
-tree.inorder(tree.root, values)
-console.log('inorder:', values)
+tree.inorderRecursively(tree.root, values)
+console.log('inorderRecursively:', values)
 // prints 7 9 10 13 15 17 22 25 27
+values = []
+tree.preorderRecursively(tree.root, values)
+console.log('preorderRecursively:', values)
+
+values = []
+tree.postorderRecursively(tree.root, values)
+console.log('postorderRecursively:', values)
 
 console.log('remove 7')
 tree.remove(7);
@@ -146,8 +171,8 @@ tree.remove(7);
 //            /
 //           17
 values = []
-tree.inorder(tree.root, values)
-console.log('inorder:', values)
+tree.inorderRecursively(tree.root, values)
+console.log('inorderRecursively:', values)
 // prints 9 10 13 15 17 22 25 27
 
 console.log('remove 15')
@@ -159,6 +184,6 @@ tree.remove(15);
 //       / \   / \
 //      9  13 22  27
 values = []
-tree.inorder(tree.root, values)
-console.log('inorder:', values)
+tree.inorderRecursively(tree.root, values)
+console.log('inorderRecursively:', values)
 // prints 9 10 13 17 22 25 27
