@@ -58,8 +58,24 @@ class Tree {
     values.push(node.value)
   }
 
-  breadthFirst(node, values) {
-
+  breadthFirst(node) {
+    const queue = []
+    const values = []
+    if (!node) {
+      return values
+    }
+    queue.push(node)
+    while(queue.length > 0) {
+      let popped = queue.shift()
+      values.push(popped.value)
+      if (popped.left) {
+        queue.push(popped.left)
+      }
+      if (popped.right) {
+        queue.push(popped.right)
+      }
+    }
+    return values
   }
 
   search(node, value) {
@@ -137,7 +153,7 @@ tree.insert(27)
 let values = []
 tree.inorderRecursively(tree.root, values)
 console.log('inorderRecursively:', values)
-// prints 5 7 9 10 13 15 17 22 25 27
+// 5 7 9 10 13 15 17 22 25 27
 
 tree.remove(5)
 console.log('remove 5')
@@ -151,7 +167,7 @@ console.log('remove 5')
 values = []
 tree.inorderRecursively(tree.root, values)
 console.log('inorderRecursively:', values)
-// prints 7 9 10 13 15 17 22 25 27
+// 7 9 10 13 15 17 22 25 27
 values = []
 tree.preorderRecursively(tree.root, values)
 console.log('preorderRecursively:', values)
@@ -159,6 +175,9 @@ console.log('preorderRecursively:', values)
 values = []
 tree.postorderRecursively(tree.root, values)
 console.log('postorderRecursively:', values)
+
+console.log('breadthFirst:', tree.breadthFirst(tree.root))
+// 15 10 25 7 13 22 27 9 17
 
 console.log('remove 7')
 tree.remove(7);
@@ -173,7 +192,7 @@ tree.remove(7);
 values = []
 tree.inorderRecursively(tree.root, values)
 console.log('inorderRecursively:', values)
-// prints 9 10 13 15 17 22 25 27
+// 9 10 13 15 17 22 25 27
 
 console.log('remove 15')
 tree.remove(15);
@@ -186,4 +205,4 @@ tree.remove(15);
 values = []
 tree.inorderRecursively(tree.root, values)
 console.log('inorderRecursively:', values)
-// prints 9 10 13 17 22 25 27
+// 9 10 13 17 22 25 27
