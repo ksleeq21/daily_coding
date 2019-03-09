@@ -7,14 +7,14 @@ class MinHeap {
     console.log(this.array)
   }
 
-  getMin() {}
-
-  getKey(idx) {
-    return this.array[idx]
+  getMin() {
+    return this.array[0]
   }
 
-  setKey(idx, key) {
-    this.array[idx] = key
+  swapKey(parentIdx, childIdx) {
+    const temp = this.array[parentIdx]
+    this.array[parentIdx] = this.array[childIdx]
+    this.array[childIdx] = temp
   }
 
   getParentIdx(idx) {
@@ -29,26 +29,60 @@ class MinHeap {
     return idx * 2 + 2
   }
 
-  extractMin() {}
+  extractMin() {
+    if (this.array.length === 0) {
+      return null
+    }
+    // replace root of the heap with the last element of the heap
+    let parentIdx = 0
+    const lastKey = this.array.pop()
+    this.array[parentIdx] = lastKey
+    // bubble down (or shift down)
+    this.bubbleDown(parentIdx)
+  }
 
-  decreaseKey(idx) {}
+  bubbleDown(parentIdx) {
+    while(1) {
+      let leftChildIdx = this.getLeftChildIdx(parentIdx)
+      let rightChildIdx = this.getRightChildIdx(parentIdx)
+      let childIdx = 0
+      if (this.array[parentIdx] > this.array[leftChildIdx]) {
+        childIdx = leftChildIdx
+      } else if (this.array[parentIdx] > this.array[rightChildIdx]) {
+        childIdx = rightChildIdx
+      } else {
+        break
+      }
+      this.swapKey(parentIdx, childIdx)
+      parentIdx = childIdx
+    }
+  }
+
+  // delete key at index idx
+  deleteKey(idx) {
+    const minKey = this.array[0]
+    const replaceKey = minKey - 1
+    this.array[idx] = replaceKey
+    let childIdx = idx
+    this.bubbleUp(childIdx)
+    this.extractMin()
+  }
 
   insertKey(key) {
-    let newKey = key
+    let childKey = key
     // add key to the end of the array
-    this.array.push(newKey)
-    let newIdx = this.array.length - 1
-    let parentIdx = this.getParentIdx(newIdx)
+    this.array.push(childKey)
+    let childIdx = this.array.length - 1
+    this.bubbleUp(childIdx)
+  }
+
+  bubbleUp(childIdx) {
+    let parentIdx = this.getParentIdx(childIdx)
     // shift up as long as needed
-    while(parentIdx >= 0) {
-      let parentKey = this.getKey(parentIdx)
-      if (parentKey <= newKey) {
-        return
-      }
-      this.setKey(parentIdx, newKey)
-      this.setKey(newIdx, parentKey)
-      newIdx = parentIdx
-      parentIdx = this.getParentIdx(newIdx)
+    while(parentIdx >= 0 && this.array[parentIdx] > this.array[childIdx]) {
+      this.swapKey(parentIdx, childIdx)
+      childIdx = parentIdx
+      parentIdx = this.getParentIdx(childIdx)
     }
   }
 
@@ -65,4 +99,13 @@ heap.insertKey(19)
 heap.insertKey(6)
 heap.insertKey(22)
 heap.insertKey(9)
+heap.levelOrderTraversal()
+
+// heap.deleteKey(1)
+// heap.levelOrderTraversal()
+
+heap.extractMin()
+heap.levelOrderTraversal()
+
+heap.extractMin()
 heap.levelOrderTraversal()
