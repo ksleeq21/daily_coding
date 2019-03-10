@@ -86,10 +86,18 @@ class MinHeap {
     }
   }
 
-  deleteKey() {}
-}
+  getSize() {
+    return this.array.length
+  }
+
+  isEmpty() {
+    return this.array.length === 0
+  }
+ }
 
 const heap = new MinHeap()
+console.log('size:', heap.getSize())
+console.log('empty?:', heap.isEmpty())
 heap.insertKey(5)
 heap.insertKey(3)
 heap.insertKey(17)
@@ -100,6 +108,8 @@ heap.insertKey(6)
 heap.insertKey(22)
 heap.insertKey(9)
 heap.levelOrderTraversal()
+console.log('size:', heap.getSize())
+console.log('empty?:', heap.isEmpty())
 
 // heap.deleteKey(1)
 // heap.levelOrderTraversal()
